@@ -6,6 +6,7 @@
  * - Jika Jenis Permintaan = Indikasi Sebelum Permasalahan -> selesai (di luar cakupan modul CRF)
  */
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/wasabi.php';
 requireRole('staff');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -65,14 +66,12 @@ if (!empty($_FILES['dokumen_pendukung']['name'])) {
             $errors[] = 'Ukuran dokumen melebihi 5MB.';
         } else {
             $storedName = 'helpdesk_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
-            $destFolder = __DIR__ . '/../uploads/helpdesk/';
-            if (!is_dir($destFolder)) {
-                mkdir($destFolder, 0755, true);
-            }
-            if (move_uploaded_file($file['tmp_name'], $destFolder . $storedName)) {
-                $dokumenPath = 'uploads/helpdesk/' . $storedName;
+            $objectKey  = 'helpdesk/' . $storedName;
+
+            if (wasabi_upload_file($file['tmp_name'], $objectKey, $mime)) {
+                $dokumenPath = $objectKey;
             } else {
-                $errors[] = 'Gagal menyimpan dokumen pendukung.';
+                $errors[] = 'Gagal mengunggah dokumen pendukung ke storage.';
             }
         }
     }

@@ -83,8 +83,8 @@ require __DIR__ . '/../includes/header.php';
 
     <div class="form-group">
         <label>Dokumen Pendukung</label>
-        <input type="file" name="dokumen_pendukung" accept=".pdf,.zip">
-        <p class="field-hint">Opsional. Maksimal ukuran file: 5MB (PDF/ZIP).</p>
+        <input type="file" name="dokumen_pendukung" accept=".pdf,.zip,.jpg,.jpeg">
+        <p class="field-hint">Opsional. Maksimal ukuran file: 5MB (PDF/ZIP/JPG).</p>
     </div>
 
     <div class="form-actions">

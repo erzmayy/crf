@@ -1,10 +1,10 @@
 <?php
 /**
- * Serve file lampiran CRF dengan validasi kepemilikan.
- * Staff hanya boleh download lampiran dari CRF miliknya sendiri.
- * Admin boleh download lampiran dari CRF siapa pun.
+ * Redirect ke presigned URL Wasabi setelah validasi kepemilikan.
+ * Link presigned berlaku 5 menit, cukup untuk browser langsung mengambilnya.
  */
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/wasabi.php';
 requireLogin();
 
 $user = currentUser();
@@ -25,21 +25,18 @@ if (!$attachment) {
     die('File tidak ditemukan.');
 }
 
-// Validasi hak akses di backend
+// Validasi hak akses di backend - staff hanya boleh download lampiran miliknya sendiri
 if ($user['role'] === 'staff' && (int)$attachment['crf_owner_id'] !== (int)$user['id']) {
     http_response_code(403);
     die('Anda tidak memiliki akses ke file ini.');
 }
 
-$filePath = __DIR__ . '/../' . $attachment['file_path'];
+// file_path sekarang berisi object key di Wasabi (bukan path lokal lagi)
+$presignedUrl = wasabi_get_presigned_url($attachment['file_path'], $attachment['original_name']);
 
-if (!file_exists($filePath)) {
-    http_response_code(404);
-    die('File fisik tidak ditemukan di server.');
+if (!$presignedUrl) {
+    http_response_code(500);
+    die('Gagal membuat link download. Silakan coba lagi.');
 }
 
-header('Content-Type: ' . ($attachment['mime_type'] ?: 'application/octet-stream'));
-header('Content-Disposition: attachment; filename="' . basename($attachment['original_name']) . '"');
-header('Content-Length: ' . filesize($filePath));
-readfile($filePath);
-exit;
+redirect($presignedUrl);

@@ -191,8 +191,8 @@ require __DIR__ . '/../includes/header.php';
 
         <div class="form-group">
             <label>Lampiran Pendukung Baru (Mockup/Dokumen Alur)</label>
-            <input type="file" name="lampiran[]" multiple accept=".pdf,.zip">
-            <p class="field-hint">Opsional. Maksimal ukuran per file: 5MB (PDF/ZIP). File lama tetap tersimpan.</p>
+            <input type="file" name="lampiran[]" multiple accept=".pdf,.zip,.jpg,.jpeg">
+            <p class="field-hint">Opsional. Maksimal ukuran per file: 5MB (PDF/ZIP/JPG). File lama tetap tersimpan.</p>
 
             <?php if (!empty($existingAttachments)): ?>
                 <ul class="attachment-list">

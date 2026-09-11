@@ -6,6 +6,7 @@
  * - intent=review -> simpan lalu lanjut ke halaman review (masih draft, belum submit final)
  */
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/wasabi.php';
 requireRole('staff');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -169,19 +170,16 @@ if (!empty($_FILES['lampiran']['name'][0])) {
         }
 
         $storedName = 'crf_' . $crfId . '_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
-        if (!is_dir(UPLOAD_PATH)) {
-            mkdir(UPLOAD_PATH, 0755, true);
-        }
+        $objectKey  = 'crf/' . $crfId . '/' . $storedName;
 
-        if (move_uploaded_file($tmpName, UPLOAD_PATH . $storedName)) {
+        if (wasabi_upload_file($tmpName, $objectKey, $mime)) {
             $stmt = $pdo->prepare("
                 INSERT INTO crf_attachments (crf_id, uploaded_by, original_name, stored_name, file_path, mime_type, size)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             ");
-            $stmt->execute([$crfId, $user['id'], $originalName, $storedName, 'uploads/crf/' . $storedName, $mime, $size]);
+            $stmt->execute([$crfId, $user['id'], $originalName, $storedName, $objectKey, $mime, $size]);
         } else {
-            $uploadErrors[] = "$originalName: gagal disimpan ke server.";
-        }
+            $uploadErrors[] = "$originalName: gagal diunggah ke storage. DETAIL: " . ($GLOBALS['wasabi_last_error'] ?? 'tidak diketahui');        }
     }
 
     if (!empty($uploadErrors)) {

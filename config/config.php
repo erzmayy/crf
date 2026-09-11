@@ -18,9 +18,8 @@ define('UPLOAD_URL', BASE_URL . '/uploads/crf/');
 define('MAX_UPLOAD_SIZE', 5 * 1024 * 1024);
 
 // Validasi lampiran (sesuai keterangan "Maksimal ukuran file: 5MB (PDF/ZIP)")
-define('ALLOWED_EXTENSIONS', ['pdf', 'zip']);
-define('ALLOWED_MIME_TYPES', ['application/pdf', 'application/zip', 'application/x-zip-compressed']);
-
+define('ALLOWED_EXTENSIONS', ['pdf', 'zip', 'jpg', 'jpeg']);
+define('ALLOWED_MIME_TYPES', ['application/pdf', 'application/zip', 'application/x-zip-compressed', 'image/jpeg']);
 // Error reporting - MATIKAN display_errors saat sudah production
 ini_set('display_errors', 1);
 error_reporting(E_ALL);

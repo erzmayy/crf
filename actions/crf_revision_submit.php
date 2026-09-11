@@ -4,6 +4,7 @@
  * Status: perlu_revisi -> diajukan (kembali masuk antrean pemeriksaan Admin).
  */
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/wasabi.php';
 requireRole('staff');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -125,14 +126,14 @@ try {
             if ($size > MAX_UPLOAD_SIZE) continue;
 
             $storedName = 'crf_' . $crfId . '_rev_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
-            if (!is_dir(UPLOAD_PATH)) mkdir(UPLOAD_PATH, 0755, true);
+            $objectKey  = 'crf/' . $crfId . '/' . $storedName;
 
-            if (move_uploaded_file($tmpName, UPLOAD_PATH . $storedName)) {
+            if (wasabi_upload_file($tmpName, $objectKey, $mime)) {
                 $stmt = $pdo->prepare("
                     INSERT INTO crf_attachments (crf_id, uploaded_by, original_name, stored_name, file_path, mime_type, size)
                     VALUES (?, ?, ?, ?, ?, ?, ?)
                 ");
-                $stmt->execute([$crfId, $user['id'], $originalName, $storedName, 'uploads/crf/' . $storedName, $mime, $size]);
+                $stmt->execute([$crfId, $user['id'], $originalName, $storedName, $objectKey, $mime, $size]);
             }
         }
     }
