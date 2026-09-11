@@ -1,0 +1,4 @@
+# Cegah eksekusi file PHP di folder upload (mitigasi upload file berbahaya)
+<FilesMatch "\.(php|phtml|php3|php4|php5|pht)$">
+    Require all denied
+</FilesMatch>

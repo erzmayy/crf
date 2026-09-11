@@ -1,0 +1,648 @@
+/* ===================================================================
+   Variabel warna dasar - mengikuti referensi desain PDF
+   (sidebar charcoal, active state biru keabuan)
+   =================================================================== */
+:root {
+    --color-sidebar: #1E2532;
+    --color-sidebar-active: #3B4A6B;
+    --color-primary: #2563eb;
+    --color-success: #16a34a;
+    --color-warning: #f59e0b;
+    --color-danger: #dc2626;
+    --color-purple: #7c3aed;
+    --color-text: #1f2937;
+    --color-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --color-bg: #f3f4f6;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+/* ---------- Halaman Login ---------- */
+.login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--color-sidebar), var(--color-sidebar-active));
+}
+
+.login-box {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 380px;
+}
+
+.login-box h1 {
+    font-size: 1.4rem;
+    margin-bottom: 0.25rem;
+}
+
+.login-subtitle {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    margin-bottom: 1.5rem;
+}
+
+.login-box label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+.login-box button {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.7rem;
+    background: var(--color-sidebar-active);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background: var(--color-sidebar);
+}
+
+.login-hint {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.8rem;
+    color: var(--color-muted);
+}
+
+.alert {
+    padding: 0.6rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+
+.alert-error {
+    background: #fee2e2;
+    color: var(--color-danger);
+}
+
+.alert-success {
+    background: #dcfce7;
+    color: var(--color-success);
+}
+
+/* ---------- Badge Status (dipakai mulai STEP 5) ---------- */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+.badge-draft            { background: #9ca3af; }
+.badge-diajukan         { background: #2563eb; }
+.badge-pemeriksaan      { background: #7c3aed; }
+.badge-revisi           { background: #f59e0b; }
+.badge-disetujui        { background: #16a34a; }
+.badge-ditolak          { background: #dc2626; }
+.badge-proses           { background: #f97316; }
+.badge-selesai          { background: #111827; }
+.badge-batal            { background: #6b7280; }
+.badge-default          { background: #6b7280; }
+
+/* ===================================================================
+   LAYOUT UTAMA (sidebar + topbar + content)
+   =================================================================== */
+.app-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ---------- Sidebar ---------- */
+.app-sidebar {
+    width: 230px;
+    background: var(--color-sidebar);
+    color: #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.app-sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.1rem 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.05rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.app-sidebar-nav {
+    flex: 1;
+    padding: 0.75rem 0;
+    overflow-y: auto;
+}
+
+.app-sidebar-item {
+    display: block;
+    padding: 0.55rem 1.2rem;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+.app-sidebar-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.app-sidebar-group-title {
+    margin-top: 0.75rem;
+    padding: 0.55rem 1.2rem 0.3rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.app-sidebar-subitem {
+    display: block;
+    padding: 0.5rem 1.2rem 0.5rem 2rem;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+}
+.app-sidebar-subitem:hover {
+    background: rgba(255,255,255,0.05);
+}
+.app-sidebar-subitem.active {
+    background: var(--color-sidebar-active);
+    color: #fff;
+    border-left-color: #60a5fa;
+    font-weight: 600;
+}
+
+.app-sidebar-footer {
+    padding: 1rem 1.2rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+.app-sidebar-logout {
+    color: #f87171;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* ---------- Topbar ---------- */
+.app-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.app-topbar {
+    background: linear-gradient(90deg, var(--color-sidebar), var(--color-sidebar-active));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.app-topbar-brand {
+    font-weight: 700;
+    margin-right: 0.75rem;
+}
+.app-topbar-breadcrumb {
+    font-size: 0.8rem;
+    color: #cbd5e1;
+}
+
+.app-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+.app-topbar-quote {
+    font-size: 0.78rem;
+    font-style: italic;
+    color: #cbd5e1;
+    max-width: 340px;
+    display: none;
+}
+@media (min-width: 1024px) {
+    .app-topbar-quote { display: inline; }
+}
+
+.app-topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.app-topbar-user-info {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    line-height: 1.2;
+}
+.app-topbar-user-info strong {
+    font-size: 0.85rem;
+}
+.app-topbar-user-info span {
+    font-size: 0.72rem;
+    color: #cbd5e1;
+}
+.app-topbar-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+/* ---------- Content area ---------- */
+.app-content {
+    padding: 1.75rem;
+    flex: 1;
+}
+
+.page-title {
+    margin: 0 0 0.25rem;
+    font-size: 1.4rem;
+}
+.page-subtitle {
+    margin: 0 0 1.5rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+}
+
+/* ---------- Stat cards (dashboard) ---------- */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+.stat-card {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.stat-label {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    font-weight: 600;
+}
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+/* ---------- Card & Table generik ---------- */
+.card {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.card-header h2 {
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+.table th, .table td {
+    text-align: left;
+    padding: 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+}
+.table th {
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.text-muted { color: var(--color-muted); }
+
+/* ---------- Buttons ---------- */
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+.btn-sm { padding: 0.35rem 0.75rem; font-size: 0.78rem; }
+.btn-primary { background: var(--color-primary); color: #fff; }
+.btn-success { background: var(--color-success); color: #fff; }
+.btn-danger  { background: var(--color-danger); color: #fff; }
+.btn-warning { background: var(--color-warning); color: #fff; }
+.btn-outline { background: #fff; border-color: var(--color-border); color: var(--color-text); }
+
+/* ===================================================================
+   FORM STYLING (dipakai di semua form: Helpdesk, CRF, Revisi, dll)
+   =================================================================== */
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 1.5rem;
+}
+@media (max-width: 720px) {
+    .form-grid-2 { grid-template-columns: 1fr; }
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--color-text);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="time"],
+.form-group input[type="date"],
+.form-group input[type="file"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    background: #fff;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.input-readonly {
+    background: #f3f4f6 !important;
+    color: var(--color-muted);
+}
+
+.field-hint {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    margin: 0.35rem 0 0;
+}
+
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    padding-top: 0.25rem;
+}
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 400;
+    font-size: 0.88rem;
+    margin: 0;
+}
+.radio-group input[type="radio"],
+.radio-group input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 1.5rem;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* ===================================================================
+   ATTACHMENT LIST / CHIP
+   =================================================================== */
+.attachment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.6rem 0 0;
+    font-size: 0.85rem;
+}
+.attachment-list li {
+    padding: 0.3rem 0;
+    color: var(--color-muted);
+}
+
+.attachment-chip {
+    display: inline-block;
+    background: #f3f4f6;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.82rem;
+    margin-bottom: 0.4rem;
+    text-decoration: none;
+    color: var(--color-text);
+}
+.attachment-chip:hover {
+    background: #e5e7eb;
+}
+
+/* ===================================================================
+   MODAL KONFIRMASI
+   =================================================================== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal-overlay.show {
+    display: flex;
+}
+.modal-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+.modal-box h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1.05rem;
+}
+.modal-box p {
+    font-size: 0.88rem;
+    color: var(--color-muted);
+    margin: 0 0 1.25rem;
+}
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+}
+
+/* ===================================================================
+   TIMELINE
+   =================================================================== */
+.timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+.timeline li {
+    position: relative;
+    padding: 0 0 1.25rem 1.75rem;
+    font-size: 0.88rem;
+}
+.timeline li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.2rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-primary);
+}
+.timeline li::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 0.9rem;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-border);
+}
+.timeline li:last-child::after {
+    display: none;
+}
+
+/* ===================================================================
+   FILTER BAR & PAGINATION (Pengajuan Saya / Daftar CRF)
+   =================================================================== */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+}
+.filter-bar input[type="text"],
+.filter-bar input[type="date"],
+.filter-bar select {
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+.filter-bar input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+}
+
+.pagination {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 1rem;
+}
+.pagination a {
+    display: inline-block;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 0.82rem;
+    text-decoration: none;
+    color: var(--color-text);
+}
+.pagination a.active {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+}
+
+/* ===================================================================
+   NOTIFIKASI
+   =================================================================== */
+.notif-card {
+    border-left: 4px solid var(--color-border);
+}
+.notif-card.notif-unread {
+    border-left-color: var(--color-primary);
+    background: #f8faff;
+}
+.notif-title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--color-text);
+    text-decoration: none;
+}
+.notif-title:hover {
+    color: var(--color-primary);
+}
