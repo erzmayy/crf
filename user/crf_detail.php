@@ -91,10 +91,14 @@ require __DIR__ . '/../includes/header.php';
         <?php if (empty($attachments)): ?>
             <span class="text-muted">Tidak ada lampiran</span>
         <?php else: ?>
-            <?php foreach ($attachments as $att): ?>
-                <a href="<?= e(BASE_URL) ?>/actions/attachment_download.php?id=<?= (int)$att['id'] ?>" class="attachment-chip">
+                        <?php foreach ($attachments as $att): ?>
+                <span class="attachment-chip">
                     &#128206; <?= e($att['original_name']) ?> (<?= round($att['size']/1024,1) ?> KB)
-                </a><br>
+                    &nbsp;|&nbsp;
+                    <a href="<?= e(BASE_URL) ?>/actions/attachment_download.php?id=<?= (int)$att['id'] ?>&mode=view" target="_blank">Lihat</a>
+                    &nbsp;|&nbsp;
+                    <a href="<?= e(BASE_URL) ?>/actions/attachment_download.php?id=<?= (int)$att['id'] ?>&mode=download">Unduh</a>
+                </span><br>
             <?php endforeach; ?>
         <?php endif; ?>
     </p>
