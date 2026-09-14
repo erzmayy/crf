@@ -30,6 +30,37 @@ $stmt = $pdo->prepare('SELECT * FROM crf_activity_logs WHERE crf_id = ? ORDER BY
 $stmt->execute([$id]);
 $timeline = $stmt->fetchAll();
 
+// Data untuk fitur "Change Request Action" (Saran Alternatif / Post Implementation Review / Implementasi)
+$stmt = $pdo->prepare("
+    SELECT ca.*, u.nama AS nama_pembuat
+    FROM crf_change_actions ca
+    JOIN users u ON u.id = ca.created_by
+    WHERE ca.crf_id = ?
+    ORDER BY ca.created_at ASC
+");
+$stmt->execute([$id]);
+$changeActionRows = $stmt->fetchAll();
+
+$changeActions = ['saran_alternatif' => [], 'post_implementation_review' => [], 'implementasi' => []];
+foreach ($changeActionRows as $row) {
+    $changeActions[$row['action_type']][] = $row;
+}
+
+$changeActionSections = [
+    'saran_alternatif' => [
+        'title' => 'Saran Alternatif',
+        'desc'  => 'Saran alternatif yang akan dilakukan atas perubahan yang telah disampaikan',
+    ],
+    'post_implementation_review' => [
+        'title' => 'Post Implementation Review',
+        'desc'  => 'Proses evaluasi yang dilakukan setelah perubahan diterapkan',
+    ],
+    'implementasi' => [
+        'title' => 'Implementasi',
+        'desc'  => 'Pelaksanaan yang telah dilakukan atas perubahan yang telah disampaikan',
+    ],
+];
+
 $prioritasLabel = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Tinggi'];
 
 $pageTitle  = 'Detail CRF - Admin SIAP PPU';
@@ -113,6 +144,54 @@ require __DIR__ . '/../includes/header.php';
             <?php endforeach; ?>
         <?php endif; ?>
     </p>
+</div>
+
+<div class="card">
+    <h2 class="section-title">Change Request Action</h2>
+    <p class="text-muted" style="margin-top:-0.75rem; font-size:0.82rem;">
+        Silahkan sampaikan saran alternatif dan tindak lanjut atas permintaan perubahan pada kolom di bawah.
+    </p>
+
+    <?php foreach ($changeActionSections as $type => $info): ?>
+        <div class="change-action-section">
+            <div class="change-action-label">
+                <strong><?= e($info['title']) ?></strong>
+                <p class="text-muted" style="font-size:0.78rem; margin-top:0.3rem;"><?= e($info['desc']) ?></p>
+            </div>
+            <div class="change-action-entries">
+                <?php if (empty($changeActions[$type])): ?>
+                    <p class="text-muted" style="font-size:0.85rem; margin-top:0;">Belum ada catatan.</p>
+                <?php else: ?>
+                    <?php foreach ($changeActions[$type] as $entry): ?>
+                        <div class="change-action-entry">
+                            <span class="text-muted" style="font-size:0.78rem;">
+                                Tanggal: <?= $entry['tanggal'] ? format_tanggal($entry['tanggal']) : '-' ?>
+                                &middot; oleh <?= e($entry['nama_pembuat']) ?>
+                            </span>
+                            <ol style="margin:0.4rem 0 0; padding-left:1.2rem;">
+                                <?php foreach (explode("\n", trim($entry['items'])) as $line): ?>
+                                    <?php if (trim($line) !== ''): ?>
+                                        <li><?= e(trim($line)) ?></li>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </ol>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
+                <form method="POST" action="<?= e(BASE_URL) ?>/actions/crf_admin_add_change_action.php">
+                    <input type="hidden" name="csrf_token" value="<?= e($csrfToken) ?>">
+                    <input type="hidden" name="crf_id" value="<?= (int)$crf['id'] ?>">
+                    <input type="hidden" name="action_type" value="<?= e($type) ?>">
+                    <textarea name="items" rows="3" placeholder="1 poin per baris, contoh:&#10;Gunakan pendekatan B&#10;Tambahkan validasi baru"></textarea>
+                    <div style="display:flex; gap:0.6rem; margin-top:0.5rem; align-items:center; flex-wrap:wrap;">
+                        <input type="date" name="tanggal" style="max-width:170px;">
+                        <button type="submit" class="btn btn-sm btn-primary">+ Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <?php endforeach; ?>
 </div>
 
 <div class="card">
