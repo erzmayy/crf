@@ -196,9 +196,9 @@ require __DIR__ . '/../includes/header.php';
         </div>
 
         <div class="form-group">
-            <label>Tingkat Prioritas *</label>
+            <label>Tingkat Urgensi *</label>
             <?php
-                $prioritasOptions = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Tinggi', 'kritis' => 'Kritis'];
+                $prioritasOptions = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Tinggi'];
                 $currentPrioritas = field_value('prioritas', $old, $crf, 'sedang');
             ?>
             <div class="radio-group">

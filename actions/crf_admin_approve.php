@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin menyetujui CRF: status (diajukan/dalam_pemeriksaan) -> disetujui.
+ * Admin menyetujui CRF: status diajukan -> disetujui.
  */
 require_once __DIR__ . '/../includes/auth.php';
 requireRole('admin');
@@ -24,7 +24,7 @@ try {
 
     $stmt = $pdo->prepare("
         SELECT * FROM crf_requests
-        WHERE id = ? AND status IN ('diajukan', 'dalam_pemeriksaan')
+        WHERE id = ? AND status = 'diajukan'
         FOR UPDATE
     ");
     $stmt->execute([$crfId]);

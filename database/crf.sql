@@ -35,7 +35,7 @@ CREATE TABLE users (
 -- ---------------------------------------------------------------------
 CREATE TABLE crf_requests (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    nomor_crf VARCHAR(20) DEFAULT NULL UNIQUE,
+    nomor_crf VARCHAR(24) DEFAULT NULL UNIQUE,
     user_id INT UNSIGNED NOT NULL,
     helpdesk_ticket_id INT UNSIGNED DEFAULT NULL,
 
@@ -49,19 +49,16 @@ CREATE TABLE crf_requests (
     kondisi_diharapkan TEXT,
     benefit_perubahan TEXT COMMENT 'Benefit dari perubahan yang diharapkan (manfaat jika perubahan disetujui/dijalankan)',
     dampak_perubahan TEXT COMMENT 'Dampak jika perubahan TIDAK dilakukan (bukan level severity, diisi bebas oleh pemohon)',
-    prioritas ENUM('rendah','sedang','tinggi','kritis') DEFAULT 'sedang',
+    prioritas ENUM('rendah','sedang','tinggi') DEFAULT 'sedang',
     target_waktu DATE DEFAULT NULL,
 
     status ENUM(
         'draft',
         'diajukan',
-        'dalam_pemeriksaan',
         'perlu_revisi',
         'disetujui',
         'ditolak',
-        'dalam_proses',
-        'selesai',
-        'dibatalkan'
+        'selesai'
     ) NOT NULL DEFAULT 'draft',
 
     revision_count INT UNSIGNED NOT NULL DEFAULT 0,

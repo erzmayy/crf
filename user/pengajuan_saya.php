@@ -65,7 +65,7 @@ require __DIR__ . '/../includes/header.php';
         <input type="text" name="q" placeholder="Cari berdasarkan Judul / Nomor CRF..." value="<?= e($q) ?>">
         <select name="status">
             <option value="">Semua Status</option>
-            <?php foreach (['draft','diajukan','dalam_pemeriksaan','perlu_revisi','disetujui','ditolak','dalam_proses','selesai','dibatalkan'] as $s): ?>
+            <?php foreach (['draft','diajukan','perlu_revisi','disetujui','ditolak','selesai'] as $s): ?>
                 <option value="<?= $s ?>" <?= $statusFil === $s ? 'selected' : '' ?>><?= status_label($s) ?></option>
             <?php endforeach; ?>
         </select>
@@ -87,7 +87,7 @@ require __DIR__ . '/../includes/header.php';
                     <th>Nomor CRF</th>
                     <th>Judul Change Request</th>
                     <th>Tanggal Pengajuan</th>
-                    <th>Prioritas</th>
+                    <th>Tingkat Urgensi</th>
                     <th>Status</th>
                     <th>Aksi</th>
                 </tr>

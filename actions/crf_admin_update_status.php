@@ -1,6 +1,6 @@
 <?php
 /**
- * Update status bebas oleh Admin (Disetujui->Dalam Proses->Selesai, atau Dibatalkan).
+ * Admin menyelesaikan CRF (Disetujui -> Selesai).
  * Validasi transisi status dilakukan ulang di backend via crf_allowed_next_statuses(),
  * supaya tidak bisa dimanipulasi lewat request langsung.
  */
@@ -21,12 +21,6 @@ if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
 $crfId          = (int)($_POST['crf_id'] ?? 0);
 $newStatus      = $_POST['new_status'] ?? '';
 $catatan        = trim($_POST['catatan'] ?? '');
-$estimasiSelesai = $_POST['estimasi_selesai'] ?? '';
-
-if ($estimasiSelesai !== '') {
-    $catatan = trim($catatan . " (Estimasi selesai: $estimasiSelesai)");
-}
-
 try {
     $pdo->beginTransaction();
 
@@ -59,14 +53,10 @@ try {
     $stmt->execute([$crfId, $admin['id'], $activityType, $crf['status'], $newStatus, $catatan ?: null]);
 
     $notifTitles = [
-        'dalam_proses' => "CRF Dalam Proses [{$crf['nomor_crf']}]",
-        'selesai'      => "CRF Selesai Diimplementasikan [{$crf['nomor_crf']}]",
-        'dibatalkan'   => "CRF Dibatalkan [{$crf['nomor_crf']}]",
+        'selesai' => "CRF Selesai Diimplementasikan [{$crf['nomor_crf']}]",
     ];
     $notifMessages = [
-        'dalam_proses' => "Change Request \"{$crf['judul']}\" Anda sedang dalam tahap implementasi.",
         'selesai'      => "Seluruh tahapan implementasi \"{$crf['judul']}\" telah berhasil diselesaikan.",
-        'dibatalkan'   => "Change Request \"{$crf['judul']}\" telah dibatalkan oleh Admin." . ($catatan ? " Catatan: $catatan" : ''),
     ];
 
     $notifStmt = $pdo->prepare("

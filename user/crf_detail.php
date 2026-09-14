@@ -31,7 +31,7 @@ if ($crf['status'] === 'perlu_revisi') {
     $latestRevision = $stmt->fetch();
 }
 
-$prioritasLabel = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Tinggi', 'kritis' => 'Kritis'];
+$prioritasLabel = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Tinggi'];
 
 $pageTitle  = 'Detail CRF - SIAP PPU';
 $breadcrumb = 'Help Desk > Detail CRF';
@@ -73,7 +73,7 @@ require __DIR__ . '/../includes/header.php';
         <div><span class="text-muted">Kategori Perubahan</span><br><strong><?= e($crf['sistem_aplikasi']) ?></strong></div>    </div>
     <div class="form-grid-2">
         <div><span class="text-muted">Jenis Perubahan</span><br><strong><?= e($crf['jenis_perubahan']) ?></strong></div>
-        <div><span class="text-muted">Prioritas &amp; Target Waktu</span><br><strong><?= e($prioritasLabel[$crf['prioritas']] ?? $crf['prioritas']) ?> | <?= format_tanggal($crf['target_waktu']) ?></strong></div>
+        <div><span class="text-muted">Tingkat Urgensi &amp; Target Waktu</span><br><strong><?= e($prioritasLabel[$crf['prioritas']] ?? $crf['prioritas']) ?> | <?= format_tanggal($crf['target_waktu']) ?></strong></div>
     </div>
 
     <p><span class="text-muted">Deskripsi Perubahan</span><br><?= nl2br(e($crf['deskripsi_perubahan'])) ?></p>

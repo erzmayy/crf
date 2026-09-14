@@ -9,7 +9,8 @@ $stmt = $pdo->prepare("
     SELECT
         COUNT(*) AS total,
         SUM(status = 'draft') AS draft,
-        SUM(status = 'dalam_pemeriksaan') AS dalam_pemeriksaan,
+        SUM(status = 'diajukan') AS diajukan,
+        SUM(status = 'disetujui') AS disetujui,
         SUM(status = 'perlu_revisi') AS perlu_revisi,
         SUM(status = 'selesai') AS selesai
     FROM crf_requests
@@ -48,8 +49,12 @@ require __DIR__ . '/../includes/header.php';
         <span class="stat-value"><?= (int)$summary['draft'] ?></span>
     </div>
     <div class="stat-card">
-        <span class="stat-label">Dalam Pemeriksaan</span>
-        <span class="stat-value"><?= (int)$summary['dalam_pemeriksaan'] ?></span>
+        <span class="stat-label">Diajukan</span>
+        <span class="stat-value"><?= (int)$summary['diajukan'] ?></span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Disetujui</span>
+        <span class="stat-value"><?= (int)$summary['disetujui'] ?></span>
     </div>
     <div class="stat-card">
         <span class="stat-label">Perlu Revisi</span>

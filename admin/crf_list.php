@@ -91,7 +91,7 @@ require __DIR__ . '/../includes/header.php';
         <input type="text" name="q" placeholder="Cari berdasarkan Nama, No CRF, atau Judul..." value="<?= e($q) ?>">
         <select name="status">
             <option value="">Semua Status</option>
-            <?php foreach (['diajukan','dalam_pemeriksaan','perlu_revisi','disetujui','ditolak','dalam_proses','selesai','dibatalkan'] as $s): ?>
+            <?php foreach (['diajukan','perlu_revisi','disetujui','ditolak','selesai'] as $s): ?>
                 <option value="<?= $s ?>" <?= $statusFil === $s ? 'selected' : '' ?>><?= status_label($s) ?></option>
             <?php endforeach; ?>
         </select>
@@ -102,8 +102,8 @@ require __DIR__ . '/../includes/header.php';
             <?php endforeach; ?>
         </select>
         <select name="prioritas">
-            <option value="">Prioritas</option>
-            <?php foreach (['rendah','sedang','tinggi','kritis'] as $p): ?>
+            <option value="">Tingkat Urgensi</option>
+            <?php foreach (['rendah','sedang','tinggi'] as $p): ?>
                 <option value="<?= $p ?>" <?= $prioFil === $p ? 'selected' : '' ?>><?= ucfirst($p) ?></option>
             <?php endforeach; ?>
         </select>

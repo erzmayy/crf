@@ -79,13 +79,10 @@ function status_label($status) {
     $labels = [
         'draft'              => 'Draft',
         'diajukan'           => 'Diajukan',
-        'dalam_pemeriksaan'  => 'Dalam Pemeriksaan',
         'perlu_revisi'       => 'Perlu Revisi',
         'disetujui'          => 'Disetujui',
         'ditolak'            => 'Ditolak',
-        'dalam_proses'       => 'Dalam Proses',
         'selesai'            => 'Selesai',
-        'dibatalkan'         => 'Dibatalkan',
     ];
     return $labels[$status] ?? ucfirst($status);
 }
@@ -95,13 +92,10 @@ function status_badge_class($status) {
     $classes = [
         'draft'              => 'badge-draft',
         'diajukan'           => 'badge-diajukan',
-        'dalam_pemeriksaan'  => 'badge-pemeriksaan',
         'perlu_revisi'       => 'badge-revisi',
         'disetujui'          => 'badge-disetujui',
         'ditolak'            => 'badge-ditolak',
-        'dalam_proses'       => 'badge-proses',
         'selesai'            => 'badge-selesai',
-        'dibatalkan'         => 'badge-batal',
     ];
     return $classes[$status] ?? 'badge-default';
 }
@@ -115,23 +109,47 @@ function initials($name) {
     return strtoupper(substr($parts[0], 0, 1) . substr(end($parts), 0, 1));
 }
 
-// Generate nomor CRF otomatis format CRF-2026-0001, dst.
+// Dummy mapping departemen ke kode divisi CRF.
+function crf_division_code($department) {
+    $codes = [
+        'Information Technology'      => '02.4',
+        'IT Change Advisory Board'    => '02.4',
+        'Human Resources'             => '01.1',
+        'Finance'                     => '03.1',
+        'Operations'                  => '04.1',
+    ];
+
+    return $codes[$department] ?? '99.9';
+}
+
+// Generate nomor CRF format PPU-[kode divisi].[nomor urut].[bulan].[tahun].
 // HARUS dipanggil di dalam transaction ($pdo->beginTransaction()) supaya
 // row-lock (FOR UPDATE) efektif mencegah duplikat saat diakses bersamaan.
-function generate_nomor_crf(PDO $pdo) {
-    $year = date('Y');
-    $prefix = "CRF-{$year}-";
+function generate_nomor_crf(PDO $pdo, $department) {
+    $divisionCode = crf_division_code($department);
+    $month = date('m');
+    $year = date('y');
+    $prefix = "PPU-{$divisionCode}.";
+    $periodSuffix = ".{$month}.{$year}";
 
-    $stmt = $pdo->prepare("SELECT nomor_crf FROM crf_requests WHERE nomor_crf LIKE ? ORDER BY id DESC LIMIT 1 FOR UPDATE");
-    $stmt->execute([$prefix . '%']);
+    $stmt = $pdo->prepare("
+        SELECT nomor_crf
+        FROM crf_requests
+        WHERE nomor_crf LIKE ?
+        ORDER BY CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(nomor_crf, '.', 3), '.', -1) AS UNSIGNED) DESC
+        LIMIT 1
+        FOR UPDATE
+    ");
+    $stmt->execute([$prefix . '%' . $periodSuffix]);
     $last = $stmt->fetchColumn();
 
     $nextNumber = 1;
     if ($last) {
-        $nextNumber = (int) substr($last, -4) + 1;
+        $parts = explode('.', $last);
+        $nextNumber = (int)($parts[2] ?? 0) + 1;
     }
 
-    return $prefix . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+    return $prefix . str_pad($nextNumber, 4, '0', STR_PAD_LEFT) . $periodSuffix;
 }
 
 // Label human-readable untuk activity_type di crf_activity_logs (dipakai di Timeline)
@@ -156,14 +174,9 @@ function activity_label($type) {
 // (satu sumber kebenaran, supaya keduanya selalu sinkron).
 function crf_allowed_next_statuses($current) {
     $map = [
-        'disetujui'    => ['dalam_proses' => 'Dalam Proses'],
-        'dalam_proses' => ['selesai' => 'Selesai'],
+        'disetujui'    => ['selesai' => 'Selesai'],
     ];
     $options = $map[$current] ?? [];
-
-    if (in_array($current, ['diajukan', 'dalam_pemeriksaan', 'disetujui', 'dalam_proses'], true)) {
-        $options['dibatalkan'] = 'Dibatalkan';
-    }
 
     return $options;
 }

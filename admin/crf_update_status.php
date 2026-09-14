@@ -63,10 +63,6 @@ require __DIR__ . '/../includes/header.php';
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="form-group">
-                <label>Estimasi Tanggal Selesai</label>
-                <input type="date" name="estimasi_selesai">
-            </div>
         </div>
 
         <div class="form-group">

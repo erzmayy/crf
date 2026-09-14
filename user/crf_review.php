@@ -29,7 +29,7 @@ $breadcrumb = 'Help Desk > Change Request > Review';
 $activeMenu = 'crf_form';
 require __DIR__ . '/../includes/header.php';
 
-$prioritasLabel = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Tinggi', 'kritis' => 'Kritis'];
+$prioritasLabel = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Tinggi'];
 ?>
 
 <div style="display:flex; align-items:center; justify-content:space-between;">
@@ -58,7 +58,7 @@ $prioritasLabel = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Ting
         <div><span class="text-muted">Kategori Perubahan</span><br><strong><?= e($crf['sistem_aplikasi']) ?></strong></div>    </div>
     <div class="form-grid-2">
         <div><span class="text-muted">Jenis Perubahan</span><br><strong><?= e($crf['jenis_perubahan']) ?></strong></div>
-        <div><span class="text-muted">Prioritas &amp; Target Waktu</span><br><strong><?= e($prioritasLabel[$crf['prioritas']] ?? $crf['prioritas']) ?> | <?= format_tanggal($crf['target_waktu']) ?></strong></div>
+        <div><span class="text-muted">Tingkat Urgensi &amp; Target Waktu</span><br><strong><?= e($prioritasLabel[$crf['prioritas']] ?? $crf['prioritas']) ?> | <?= format_tanggal($crf['target_waktu']) ?></strong></div>
     </div>
 
     <p><span class="text-muted">Deskripsi Perubahan</span><br><?= nl2br(e($crf['deskripsi_perubahan'])) ?></p>

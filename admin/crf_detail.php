@@ -30,7 +30,7 @@ $stmt = $pdo->prepare('SELECT * FROM crf_activity_logs WHERE crf_id = ? ORDER BY
 $stmt->execute([$id]);
 $timeline = $stmt->fetchAll();
 
-$prioritasLabel = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Tinggi', 'kritis' => 'Kritis'];
+$prioritasLabel = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Tinggi'];
 
 $pageTitle  = 'Detail CRF - Admin SIAP PPU';
 $breadcrumb = 'Help Desk > Detail Pengajuan CRF';
@@ -49,26 +49,12 @@ require __DIR__ . '/../includes/header.php';
 <!-- ================= TOMBOL AKSI KONTEKSTUAL ================= -->
 <div class="form-actions" style="border:none; justify-content:flex-start; margin-top:0.5rem;">
     <?php if ($crf['status'] === 'diajukan'): ?>
-        <form method="POST" action="<?= e(BASE_URL) ?>/actions/crf_admin_start_review.php" style="display:inline;">
-            <input type="hidden" name="csrf_token" value="<?= e($csrfToken) ?>">
-            <input type="hidden" name="crf_id" value="<?= (int)$crf['id'] ?>">
-            <button type="submit" class="btn btn-outline">Mulai Pemeriksaan</button>
-        </form>
         <a href="<?= e(BASE_URL) ?>/admin/crf_revisi_request.php?id=<?= (int)$crf['id'] ?>" class="btn btn-warning">Minta Revisi</a>
         <button type="button" class="btn btn-danger" onclick="document.getElementById('rejectModal').classList.add('show')">Tolak</button>
         <button type="button" class="btn btn-success" onclick="document.getElementById('approveModal').classList.add('show')">Setujui CRF</button>
-
-    <?php elseif ($crf['status'] === 'dalam_pemeriksaan'): ?>
-        <button type="button" class="btn btn-danger" onclick="document.getElementById('rejectModal').classList.add('show')">Tolak</button>
-        <a href="<?= e(BASE_URL) ?>/admin/crf_revisi_request.php?id=<?= (int)$crf['id'] ?>" class="btn btn-warning">Minta Revisi</a>
-        <button type="button" class="btn btn-success" onclick="document.getElementById('approveModal').classList.add('show')">Setujui CRF</button>
-        <a href="<?= e(BASE_URL) ?>/admin/crf_update_status.php?id=<?= (int)$crf['id'] ?>" class="btn btn-outline">Update Status</a>
 
     <?php elseif ($crf['status'] === 'disetujui'): ?>
-        <a href="<?= e(BASE_URL) ?>/admin/crf_update_status.php?id=<?= (int)$crf['id'] ?>" class="btn btn-primary">Mulai Proses / Update Status</a>
-
-    <?php elseif ($crf['status'] === 'dalam_proses'): ?>
-        <a href="<?= e(BASE_URL) ?>/admin/crf_update_status.php?id=<?= (int)$crf['id'] ?>" class="btn btn-primary">Selesaikan / Update Status</a>
+        <a href="<?= e(BASE_URL) ?>/admin/crf_update_status.php?id=<?= (int)$crf['id'] ?>" class="btn btn-primary">Tandai Selesai</a>
 
     <?php elseif ($crf['status'] === 'perlu_revisi'): ?>
         <p class="text-muted" style="margin:0;">Menunggu pemohon mengirim ulang revisi.</p>
@@ -98,7 +84,7 @@ require __DIR__ . '/../includes/header.php';
     </div>
     <div class="form-grid-2">
         <div><span class="text-muted">Jenis Perubahan</span><br><strong><?= e($crf['jenis_perubahan']) ?></strong></div>
-        <div><span class="text-muted">Prioritas &amp; Target Waktu</span><br><strong><?= e($prioritasLabel[$crf['prioritas']] ?? $crf['prioritas']) ?> | <?= format_tanggal($crf['target_waktu']) ?></strong></div>
+        <div><span class="text-muted">Tingkat Urgensi &amp; Target Waktu</span><br><strong><?= e($prioritasLabel[$crf['prioritas']] ?? $crf['prioritas']) ?> | <?= format_tanggal($crf['target_waktu']) ?></strong></div>
     </div>
 
     <p><span class="text-muted">Deskripsi Perubahan</span><br><?= nl2br(e($crf['deskripsi_perubahan'])) ?></p>

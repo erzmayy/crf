@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin meminta revisi: status (diajukan/dalam_pemeriksaan) -> perlu_revisi.
+ * Admin meminta revisi: status diajukan -> perlu_revisi.
  * Membuat baris baru di crf_revisions yang nanti akan "ditutup" (resubmitted_at)
  * saat user mengirim ulang lewat user/crf_revisi.php.
  */
@@ -36,7 +36,7 @@ try {
 
     $stmt = $pdo->prepare("
         SELECT * FROM crf_requests
-        WHERE id = ? AND status IN ('diajukan', 'dalam_pemeriksaan')
+        WHERE id = ? AND status = 'diajukan'
         FOR UPDATE
     ");
     $stmt->execute([$crfId]);

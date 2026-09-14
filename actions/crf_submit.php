@@ -33,7 +33,7 @@ try {
         redirect(BASE_URL . '/user/pengajuan_saya.php');
     }
 
-    $nomorCrf = generate_nomor_crf($pdo);
+    $nomorCrf = generate_nomor_crf($pdo, $user['departemen'] ?? '');
 
     $stmt = $pdo->prepare("
         UPDATE crf_requests

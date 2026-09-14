@@ -65,8 +65,8 @@ foreach ($requiredLabels as $key => $label) {
         $errors[] = "$label wajib diisi.";
     }
 }
-if (!in_array($data['prioritas'], ['rendah', 'sedang', 'tinggi', 'kritis'], true)) {
-    $errors[] = 'Tingkat Prioritas wajib dipilih.';
+if (!in_array($data['prioritas'], ['rendah', 'sedang', 'tinggi'], true)) {
+    $errors[] = 'Tingkat Urgensi wajib dipilih.';
 }
 if ($data['target_waktu'] !== '' && !DateTime::createFromFormat('Y-m-d', $data['target_waktu'])) {
     $errors[] = 'Format Target Waktu Implementasi tidak valid.';

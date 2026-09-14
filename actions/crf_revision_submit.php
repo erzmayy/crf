@@ -56,6 +56,9 @@ foreach ($requiredLabels as $key => $label) {
     if ($data[$key] === '') {
         $errors[] = "$label wajib diisi.";
     }
+    if (!in_array($data['prioritas'], ['rendah', 'sedang', 'tinggi'], true)) {
+        $errors[] = 'Tingkat Urgensi wajib dipilih.';
+    }
 }
 if (!empty($errors)) {
     $_SESSION['old_input'] = $_POST;

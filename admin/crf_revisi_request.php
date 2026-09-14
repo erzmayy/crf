@@ -20,8 +20,8 @@ if (!$crf) {
     redirect(BASE_URL . '/admin/crf_list.php');
 }
 
-if (!in_array($crf['status'], ['diajukan', 'dalam_pemeriksaan'], true)) {
-    set_flash('error', 'Permintaan revisi hanya bisa dilakukan saat status Diajukan atau Dalam Pemeriksaan.');
+if ($crf['status'] !== 'diajukan') {
+    set_flash('error', 'Permintaan revisi hanya bisa dilakukan saat status Diajukan.');
     redirect(BASE_URL . '/admin/crf_detail.php?id=' . $id);
 }
 
