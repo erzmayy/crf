@@ -64,11 +64,6 @@ $prioritasLabel = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Ting
     <p><span class="text-muted">Deskripsi Perubahan</span><br><?= nl2br(e($crf['deskripsi_perubahan'])) ?></p>
     <p><span class="text-muted">Alasan Permohonan Perubahan</span><br><?= nl2br(e($crf['alasan_perubahan'])) ?></p>
 
-    <div class="form-grid-2">
-        <p><span class="text-muted">Kondisi Saat Ini</span><br><?= nl2br(e($crf['kondisi_saat_ini'])) ?></p>
-        <p><span class="text-muted">Kondisi Yang Diharapkan</span><br><?= nl2br(e($crf['kondisi_diharapkan'])) ?></p>
-    </div>
-
     <p><span class="text-muted">Benefit dari Perubahan yang Diharapkan</span><br><?= nl2br(e($crf['benefit_perubahan'])) ?></p>
     <p><span class="text-muted">Dampak Jika Perubahan Tidak Dilakukan</span><br><?= nl2br(e($crf['dampak_perubahan'])) ?></p>
 

@@ -37,8 +37,6 @@ $data = [
     'jenis_perubahan'     => $_POST['jenis_perubahan'] ?? '',
     'deskripsi_perubahan' => trim($_POST['deskripsi_perubahan'] ?? ''),
     'alasan_perubahan'    => trim($_POST['alasan_perubahan'] ?? ''),
-    'kondisi_saat_ini'    => trim($_POST['kondisi_saat_ini'] ?? ''),
-    'kondisi_diharapkan'  => trim($_POST['kondisi_diharapkan'] ?? ''),
     'benefit_perubahan'   => trim($_POST['benefit_perubahan'] ?? ''),
     'dampak_perubahan'    => trim($_POST['dampak_perubahan'] ?? ''),
     'aset_sumber_pendukung' => trim($_POST['aset_sumber_pendukung'] ?? ''),
@@ -53,8 +51,6 @@ $requiredLabels = [
     'jenis_perubahan' => 'Jenis Perubahan',
     'deskripsi_perubahan' => 'Deskripsi Perubahan',
     'alasan_perubahan' => 'Alasan Permohonan Perubahan',
-    'kondisi_saat_ini' => 'Kondisi Saat Ini',
-    'kondisi_diharapkan' => 'Kondisi Yang Diharapkan',
     'benefit_perubahan' => 'Benefit dari Perubahan',
     'dampak_perubahan' => 'Dampak Jika Tidak Dilakukan',
     'target_waktu' => 'Target Waktu Implementasi',
@@ -94,16 +90,15 @@ if ($crfId) {
     $stmt = $pdo->prepare("
         UPDATE crf_requests SET
             judul = ?, sistem_aplikasi = ?, jenis_perubahan = ?, deskripsi_perubahan = ?,
-            alasan_perubahan = ?, kondisi_saat_ini = ?, kondisi_diharapkan = ?,
+            alasan_perubahan = ?, kondisi_saat_ini = '', kondisi_diharapkan = '',
             benefit_perubahan = ?, dampak_perubahan = ?, prioritas = ?, target_waktu = ?,
             helpdesk_ticket_id = COALESCE(helpdesk_ticket_id, ?)
         WHERE id = ? AND user_id = ?
     ");
     $stmt->execute([
         $data['judul'], $data['sistem_aplikasi'], $data['jenis_perubahan'], $data['deskripsi_perubahan'],
-        $data['alasan_perubahan'], $data['kondisi_saat_ini'], $data['kondisi_diharapkan'],
-        $data['benefit_perubahan'], $data['dampak_perubahan'], $data['prioritas'], $data['target_waktu'],
-        $helpdeskId, $crfId, $user['id'],
+        $data['alasan_perubahan'], $data['benefit_perubahan'], $data['dampak_perubahan'],
+        $data['prioritas'], $data['target_waktu'], $helpdeskId, $crfId, $user['id'],
     ]);
 
     $activityType = 'draft_updated';
@@ -113,13 +108,12 @@ if ($crfId) {
             (user_id, helpdesk_ticket_id, judul, sistem_aplikasi, jenis_perubahan, deskripsi_perubahan,
              alasan_perubahan, kondisi_saat_ini, kondisi_diharapkan, benefit_perubahan, dampak_perubahan,
              prioritas, target_waktu, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft')
+        VALUES (?, ?, ?, ?, ?, ?, ?, '', '', ?, ?, ?, ?, 'draft')
     ");
     $stmt->execute([
         $user['id'], $helpdeskId, $data['judul'], $data['sistem_aplikasi'], $data['jenis_perubahan'],
-        $data['deskripsi_perubahan'], $data['alasan_perubahan'], $data['kondisi_saat_ini'],
-        $data['kondisi_diharapkan'], $data['benefit_perubahan'], $data['dampak_perubahan'],
-        $data['prioritas'], $data['target_waktu'],
+        $data['deskripsi_perubahan'], $data['alasan_perubahan'], $data['benefit_perubahan'],
+        $data['dampak_perubahan'], $data['prioritas'], $data['target_waktu'],
     ]);
     $crfId = (int)$pdo->lastInsertId();
 

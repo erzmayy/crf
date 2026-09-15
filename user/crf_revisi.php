@@ -152,17 +152,6 @@ require __DIR__ . '/../includes/header.php';
             <textarea name="alasan_perubahan" rows="3" required><?= e(rv_field('alasan_perubahan', $old, $crf)) ?></textarea>
         </div>
 
-        <div class="form-grid-2">
-            <div class="form-group">
-                <label>Kondisi Saat Ini *</label>
-                <textarea name="kondisi_saat_ini" rows="3" required><?= e(rv_field('kondisi_saat_ini', $old, $crf)) ?></textarea>
-            </div>
-            <div class="form-group">
-                <label>Kondisi Yang Diharapkan *</label>
-                <textarea name="kondisi_diharapkan" rows="3" required><?= e(rv_field('kondisi_diharapkan', $old, $crf)) ?></textarea>
-            </div>
-        </div>
-
         <div class="form-group">
             <label>Benefit dari Perubahan yang Diharapkan *</label>
             <textarea name="benefit_perubahan" rows="3" required><?= e(rv_field('benefit_perubahan', $old, $crf)) ?></textarea>
