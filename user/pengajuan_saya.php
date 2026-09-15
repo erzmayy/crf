@@ -108,6 +108,9 @@ require __DIR__ . '/../includes/header.php';
                         <?php elseif ($r['status'] === 'perlu_revisi'): ?>
                             &nbsp;|&nbsp;<a href="<?= e(BASE_URL) ?>/user/crf_revisi.php?id=<?= (int)$r['id'] ?>">Revisi</a>
                         <?php endif; ?>
+                        <?php if ($r['status'] !== 'draft'): ?>
+                            &nbsp;|&nbsp;<a href="<?= e(BASE_URL) ?>/user/crf_print.php?id=<?= (int)$r['id'] ?>" target="_blank" title="Cetak / Export PDF">&#128438; Cetak</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

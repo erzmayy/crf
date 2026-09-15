@@ -174,6 +174,12 @@ require __DIR__ . '/../includes/header.php';
         </div>
 
         <div class="form-group">
+            <label>Aset / Sumber Pendukung (Anggaran)</label>
+            <textarea name="aset_sumber_pendukung" rows="3"><?= e(rv_field('aset_sumber_pendukung', $old, $crf)) ?></textarea>
+            <p class="field-hint">Opsional.</p>
+        </div>
+
+        <div class="form-group">
             <label>Tingkat Urgensi *</label>
             <?php
                 $prioritasOptions = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Tinggi'];

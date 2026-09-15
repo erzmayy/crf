@@ -87,6 +87,9 @@ require __DIR__ . '/../includes/header.php';
     <p><span class="text-muted">Benefit dari Perubahan yang Diharapkan</span><br><?= nl2br(e($crf['benefit_perubahan'])) ?></p>
     <p><span class="text-muted">Dampak Jika Perubahan Tidak Dilakukan</span><br><?= nl2br(e($crf['dampak_perubahan'])) ?></p>
 
+    <?php if (!empty($crf['aset_sumber_pendukung'])): ?>
+    <p><span class="text-muted">Aset / Sumber Pendukung</span><br><?= nl2br(e($crf['aset_sumber_pendukung'])) ?></p>
+    <?php endif; ?>
     <p><span class="text-muted">Lampiran Pendukung</span><br>
         <?php if (empty($attachments)): ?>
             <span class="text-muted">Tidak ada lampiran</span>
