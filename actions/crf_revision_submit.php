@@ -34,6 +34,7 @@ $data = [
     'kondisi_diharapkan'  => trim($_POST['kondisi_diharapkan'] ?? ''),
     'benefit_perubahan'   => trim($_POST['benefit_perubahan'] ?? ''),
     'dampak_perubahan'    => trim($_POST['dampak_perubahan'] ?? ''),
+    'aset_sumber_pendukung' => trim($_POST['aset_sumber_pendukung'] ?? ''),
     'prioritas'           => $_POST['prioritas'] ?? 'sedang',
     'target_waktu'        => $_POST['target_waktu'] ?? '',
 ];

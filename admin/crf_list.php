@@ -142,7 +142,11 @@ require __DIR__ . '/../includes/header.php';
                     <td><?= format_tanggal($r['created_at']) ?></td>
                     <td><?= e(ucfirst($r['prioritas'])) ?></td>
                     <td><span class="badge <?= status_badge_class($r['status']) ?>"><?= status_label($r['status']) ?></span></td>
-                    <td><a href="<?= e(BASE_URL) ?>/admin/crf_detail.php?id=<?= (int)$r['id'] ?>">Detail</a></td>
+                    <td>
+                        <a href="<?= e(BASE_URL) ?>/admin/crf_detail.php?id=<?= (int)$r['id'] ?>">Detail</a>
+                        &nbsp;|&nbsp;
+                        <a href="<?= e(BASE_URL) ?>/admin/crf_print.php?id=<?= (int)$r['id'] ?>" target="_blank" title="Cetak / Export PDF">&#128438; Cetak</a>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

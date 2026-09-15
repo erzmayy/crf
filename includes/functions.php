@@ -180,3 +180,10 @@ function crf_allowed_next_statuses($current) {
 
     return $options;
 }
+
+function numbered_lines($text) {
+    $lines = explode("\n", (string) $text);
+    $lines = array_map('trim', $lines);
+    $lines = array_filter($lines, function ($l) { return $l !== ''; });
+    return array_values($lines);
+}

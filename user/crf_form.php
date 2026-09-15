@@ -196,6 +196,13 @@ require __DIR__ . '/../includes/header.php';
         </div>
 
         <div class="form-group">
+            <label>Aset / Sumber Pendukung (Anggaran)</label>
+            <textarea name="aset_sumber_pendukung" rows="3"
+                    placeholder="Opsional. Contoh:&#10;RKAP tahun berjalan, sebutkan...&#10;Persetujuan dari BoD PKS, sebutkan...&#10;Akan diajukan dalam bentuk lain, sebutkan..."><?= e(field_value('aset_sumber_pendukung', $old, $crf)) ?></textarea>
+            <p class="field-hint">Opsional. Isi sumber anggaran/pendanaan pendukung jika relevan.</p>
+        </div>
+
+        <div class="form-group">
             <label>Tingkat Urgensi *</label>
             <?php
                 $prioritasOptions = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Tinggi'];

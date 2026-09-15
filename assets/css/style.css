@@ -646,3 +646,51 @@ body {
 .notif-title:hover {
     color: var(--color-primary);
 }
+
+/* ===================================================================
+   CHANGE REQUEST ACTION (Saran Alternatif / PIR / Implementasi)
+   =================================================================== */
+.change-action-section {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--color-border);
+}
+.change-action-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.change-action-label {
+    width: 220px;
+    flex-shrink: 0;
+}
+.change-action-entries {
+    flex: 1;
+    min-width: 0;
+}
+.change-action-entry {
+    padding: 0.6rem 0.9rem;
+    background: #f9fafb;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    margin-bottom: 0.6rem;
+}
+.change-action-entries textarea {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    resize: none;
+}
+
+@media (max-width: 720px) {
+    .change-action-section {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .change-action-label {
+        width: 100%;
+    }
+}
