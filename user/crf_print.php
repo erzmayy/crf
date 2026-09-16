@@ -37,4 +37,15 @@ foreach ($changeActionRows as $row) {
     $changeActions[$row['action_type']][] = $row;
 }
 
+// Data siapa & kapan CRF ini disetujui (dari activity log)
+$stmt = $pdo->prepare("
+    SELECT l.created_at, u.nama AS approver_nama
+    FROM crf_activity_logs l
+    JOIN users u ON u.id = l.actor_id
+    WHERE l.crf_id = ? AND l.activity_type = 'approved'
+    ORDER BY l.created_at DESC LIMIT 1
+");
+$stmt->execute([$id]);
+$approvalInfo = $stmt->fetch();
+
 require __DIR__ . '/../includes/crf_print_template.php';

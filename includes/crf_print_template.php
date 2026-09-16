@@ -106,10 +106,16 @@ $prioritasLabel = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Ting
         .action-body ol { margin: 0 0 4px; padding-left: 18px; }
         .action-date { font-size: 10px; color: #333; border-top: 1px dashed #999; margin-top: 4px; padding-top: 3px; }
 
-        .sign-table { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 11px; }
-        .sign-table td { width: 50%; text-align: center; padding: 4px; vertical-align: top; }
-        .sign-box { height: 60px; }
-        .sign-line { border-top: 1px solid #000; margin-top: 60px; padding-top: 4px; }
+        .approval-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 11px; table-layout: fixed; }
+        .approval-table th, .approval-table td {
+            border: 1px solid #000;
+            padding: 8px 6px;
+            text-align: center;
+            vertical-align: top;
+        }
+        .approval-table th { background: #f3f4f6; font-size: 10.5px; }
+        .approval-table td { height: 40px; }
+        .approval-date-row td { font-size: 10px; color: #333; }
 
         @media print {
             body { background: #fff; padding: 0; }
@@ -263,26 +269,23 @@ $prioritasLabel = ['rendah' => 'Rendah', 'sedang' => 'Sedang', 'tinggi' => 'Ting
         </div>
     <?php endforeach; ?>
 
-    <table class="sign-table">
-        <tr>
-            <td>
-                <div class="sign-box"></div>
-                <div class="sign-line">
-                    <strong><?= e($crf['nama_pemohon'] ?? '-') ?></strong><br>
-                    Yang Mengajukan<br>
-                    <?= e($crf['departemen'] ?? '-') ?>
-                </div>
-            </td>
-            <td>
-                <div class="sign-box"></div>
-                <div class="sign-line">
-                    <strong>&nbsp;</strong><br>
-                    Diketahui oleh (Admin / CAB)<br>
-                    &nbsp;
-                </div>
-            </td>
-        </tr>
-    </table>
+            <table class="approval-table">
+                <tr>
+                    <th>Yang Mengajukan</th>
+                    <th>Yang Mengetahui (Team CMO) </th>
+                    <th>Kepala Departemen Operasional</th>
+                </tr>
+                <tr>
+                    <td><?= e($crf['nama_pemohon'] ?? '-') ?></td>
+                    <td>&nbsp;</td>
+                    <td>Joko Sri Purwoko</td>
+                </tr>
+                <tr class="approval-date-row">
+                    <td>Tanggal: <?= format_tanggal($crf['submitted_at'] ?? $crf['created_at']) ?></td>
+                    <td>Tanggal: &nbsp;</td>
+                    <td>Tanggal: <?= !empty($approvalInfo['created_at']) ? format_tanggal($approvalInfo['created_at']) : '-' ?></td>
+                </tr>
+            </table>
 </div>
 
 </body>
